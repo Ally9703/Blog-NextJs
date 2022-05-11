@@ -25,7 +25,10 @@ export default function ProjetsDuClient(props) {
             <h1>{nomDuClient}</h1>
 
             {/* Filtres */}
-            <FiltresDeClient client={router.query.client} />
+            <FiltresDeClient
+                client={router.query.client}
+                annee={props.annees}
+            />
 
             <div
                 style={{
@@ -51,8 +54,28 @@ export default function ProjetsDuClient(props) {
 // LA PARTIE SERVEUR AVEC LE PROPS ET LE PATHS
 
 export async function getStaticPaths() {
+    // connexion à MongoDB
+    const client = await connectToDatabase();
+    const db = client.db();
+
+    // Récupérer les projets
+    const projets = await db.collection('projets').find().toArray();
+
+    let arrayPaths = projets.map((projet) => {
+        if (projet.client == 'Projet personnel') {
+            return 'perso';
+        } else {
+            return projet.client;
+        }
+    });
+
+    // arrayPaths = [...new Set(arrayPaths)];
+    const dynamicPaths = arrayPaths.map((path) => ({
+        params: { client: path },
+    }));
+    console.log(dynamicPaths);
     return {
-        paths: [{ params: { client: 'Allytech' } }],
+        paths: dynamicPaths,
         fallback: 'blocking',
     };
 }
@@ -60,7 +83,8 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
     // Les Variables
     let projets;
-    let client;
+    let annees;
+    // let client;
 
     const { params } = context;
     let clientParam = params.client;
@@ -78,13 +102,18 @@ export async function getStaticProps(context) {
             .collection('projets')
             .find({ client: clientParam })
             .toArray();
+        projets = JSON.parse(JSON.stringify(projets));
+
+        annees = projets.map((projets) => projets.annee);
+        annees = [...new Set(annees)];
     } catch (error) {
         projets = [];
     }
 
     return {
         props: {
-            projets: JSON.parse(JSON.stringify(projets)),
+            projets: projets,
+            annees: annees,
         },
     };
 }
