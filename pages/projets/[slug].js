@@ -32,30 +32,7 @@ export default function Projet(props) {
     );
 }
 
-export async function getStaticPaths() {
-    // Les Variables
-    let projets;
-    try {
-        const client = await connectToDatabase();
-        const db = client.db();
-
-        // Récupérer tout les projets
-        projets = await db.collection('projets').find().toArray();
-    } catch (error) {
-        projets = [];
-    }
-
-    const dynamicPaths = projets.map((projet) => ({
-        params: { slug: projet.slug },
-    }));
-
-    return {
-        paths: dynamicPaths,
-        fallback: 'blocking',
-    };
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
     // Les Variables
     let projetRecupere;
     let { params } = context;
@@ -64,14 +41,6 @@ export async function getStaticProps(context) {
     try {
         const client = await connectToDatabase();
         const db = client.db();
-
-        // // connexion à MongoDB
-        // client = await MongoClient.connect(
-        //     'mongodb+srv://Bless:W7lt0FuKcpTJFiOc@cluster0.kh93b.mongodb.net/portfolio?retryWrites=true&w=majority'
-        // );
-
-        // //Connexion à la BD
-        // const db = client.db();
 
         // Récuperer les projets
         projetRecupere = await db
@@ -84,13 +53,73 @@ export async function getStaticProps(context) {
 
     if (!projetRecupere[0]) {
         return {
-            notFound: true,
+            // notFound: true,
+            redirect: {
+                destination: '/',
+            },
         };
     }
     return {
         props: {
             projet: JSON.parse(JSON.stringify(projetRecupere))[0],
-            revalidate: 3600,
         },
     };
 }
+
+// export async function getStaticPaths() {
+//     // Les Variables
+//     let projets;
+//     try {
+//         const client = await connectToDatabase();
+//         const db = client.db();
+
+//         // Récupérer tout les projets
+//         projets = await db.collection('projets').find().toArray();
+//     } catch (error) {
+//         projets = [];
+//     }
+
+//     const dynamicPaths = projets.map((projet) => ({
+//         params: { slug: projet.slug },
+//     }));
+
+//     return {
+//         paths: dynamicPaths,
+//         fallback: 'blocking',
+//     };
+// }
+
+// export async function getStaticProps(context) {
+// // Les Variables
+// let projetRecupere;
+// let { params } = context;
+// const slug = params.slug;
+
+// try {
+//     const client = await connectToDatabase();
+//     const db = client.db();
+
+//     // Récuperer les projets
+//     projetRecupere = await db
+//         .collection('projets')
+//         .find({ slug: slug })
+//         .toArray();
+// } catch (error) {
+//     projetRecupere = [];
+// }
+
+// if (!projetRecupere[0]) {
+//     return {
+//         // notFound: true,
+//         redirect: {
+//             destination: '/',
+//         },
+//     };
+// }
+// return {
+//     props: {
+//         projet: JSON.parse(JSON.stringify(projetRecupere))[0],
+//         revalidate: 3600,
+//     },
+// };
+// }
