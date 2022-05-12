@@ -98,6 +98,7 @@ export async function getStaticProps(context) {
         projets = await db
             .collection('projets')
             .find({ client: clientParam })
+            .sort({ dateDepublication: 1 })
             .toArray();
         projets = JSON.parse(JSON.stringify(projets));
 

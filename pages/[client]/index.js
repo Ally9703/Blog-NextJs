@@ -27,7 +27,7 @@ export default function ProjetsDuClient(props) {
             {/* Filtres */}
             <FiltresDeClient
                 client={router.query.client}
-                annee={props.annees}
+                annees={props.annees}
             />
 
             <div
@@ -73,7 +73,7 @@ export async function getStaticPaths() {
     const dynamicPaths = arrayPaths.map((path) => ({
         params: { client: path },
     }));
-    console.log(dynamicPaths);
+
     return {
         paths: dynamicPaths,
         fallback: 'blocking',
@@ -101,6 +101,7 @@ export async function getStaticProps(context) {
         projets = await db
             .collection('projets')
             .find({ client: clientParam })
+            .sort({ dateDePublication: 1 })
             .toArray();
         projets = JSON.parse(JSON.stringify(projets));
 
