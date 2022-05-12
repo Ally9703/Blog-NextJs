@@ -1,4 +1,4 @@
-// Les Librairies
+// Librairies
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 
@@ -10,10 +10,29 @@ export default function Ajouter() {
         formState: { errors },
     } = useForm();
 
-    // Les Méthodes
-    const onSubmitedHandeler = (data) => {
-        console.log(data);
+    // Méthode
+    const onSubmittedHandler = async (data) => {
+        // Envoyer le nouveau projet sur notre API Next
+        const response = await fetch('/api/projet', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        const fetchedData = await response.json();
+
+        if (!response.ok) {
+            console.log(
+                fetchedData.message ||
+                    "Une erreur est survenue dans l'API."
+            );
+        } else {
+            console.log(fetchedData);
+        }
     };
+
     return (
         <>
             <Head>
@@ -33,7 +52,7 @@ export default function Ajouter() {
                         errors.slug ||
                         errors.client ||
                         errors.annee ||
-                        errors.descrition ||
+                        errors.description ||
                         errors.contenu) && (
                         <div
                             style={{
@@ -48,7 +67,7 @@ export default function Ajouter() {
                             formulaire.
                         </div>
                     )}
-                    <form onSubmit={handleSubmit(onSubmitedHandeler)}>
+                    <form onSubmit={handleSubmit(onSubmittedHandler)}>
                         <p>
                             <label htmlFor='titre'>Titre</label>
                             <input
@@ -67,7 +86,6 @@ export default function Ajouter() {
                                 })}
                             />
                         </p>
-
                         <p>
                             <label htmlFor='slug'>Slug</label>
                             <input
@@ -86,12 +104,11 @@ export default function Ajouter() {
                                 })}
                             />
                         </p>
-
                         <p>
-                            <label htmlFor='client'>CLient</label>
+                            <label htmlFor='client'>Client</label>
                             <input
                                 id='client'
-                                placeholder='Tclient associé au projet'
+                                placeholder='Client associé au projet'
                                 style={{
                                     display: 'block',
                                     width: '400px',
@@ -105,7 +122,6 @@ export default function Ajouter() {
                                 })}
                             />
                         </p>
-
                         <p>
                             <label htmlFor='annee'>Année</label>
                             <input
@@ -124,7 +140,6 @@ export default function Ajouter() {
                                 })}
                             />
                         </p>
-
                         <p>
                             <label htmlFor='description'>
                                 Description
@@ -147,7 +162,6 @@ export default function Ajouter() {
                                 })}
                             ></textarea>
                         </p>
-
                         <p>
                             <label htmlFor='contenu'>Contenu</label>
                             <textarea
@@ -161,7 +175,7 @@ export default function Ajouter() {
                                     padding: '10px 15px 10px 15px',
                                     borderRadius: '5px',
                                     marginTop: '5px',
-                                    fontFamily: 'arial  ',
+                                    fontFamily: 'arial',
                                 }}
                                 {...register('contenu', {
                                     required: true,
@@ -176,7 +190,7 @@ export default function Ajouter() {
                         >
                             <button
                                 style={{
-                                    boder: 0,
+                                    border: 0,
                                     backgroundColor: '#ee6c4d',
                                     color: 'white',
                                     padding: '10px 15px 10px 15px',
