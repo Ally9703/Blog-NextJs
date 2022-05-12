@@ -1,4 +1,4 @@
-// Librairie
+// Librairies
 import { useRouter } from 'next/router';
 import { connectToDatabase } from '../../helpers/mongodb';
 import Head from 'next/head';
@@ -43,18 +43,13 @@ export default function ProjetsDuClientFiltre(props) {
                 {props.projets.map((projet) => (
                     <CarteDeProjet projet={projet} key={projet._id} />
                 ))}
-                {/* <CarteDeProjet />
-                <CarteDeProjet />
-                <CarteDeProjet /> */}
             </div>
         </>
     );
 }
 
-// LA PARTIE SERVEUR AVEC LE PROPS ET LE PATHS
-
 export async function getStaticPaths() {
-    // connexion à MongoDB
+    // Connexion à MongoDB
     const client = await connectToDatabase();
     const db = client.db();
 
@@ -69,23 +64,20 @@ export async function getStaticPaths() {
         }
     });
 
-    arrayPaths = [...new Set(arrayPaths)];
     const dynamicPaths = arrayPaths.map((path) => ({
         params: { client: path[0], annee: path[1].toString() },
     }));
-    console.log(dynamicPaths);
+
     return {
         paths: dynamicPaths,
-        fallback: 'blocking',
+        fallback: false,
     };
 }
 
 export async function getStaticProps(context) {
-    // Les Variables
+    // Variables
     let projets;
     let annees;
-    // let client;
-
     const { params } = context;
     let clientParam = params.client;
     let anneeParam = +params.annee;
@@ -98,15 +90,15 @@ export async function getStaticProps(context) {
         const client = await connectToDatabase();
         const db = client.db();
 
-        // Récuperer les projets
+        // Récupérer les projets
         projets = await db
             .collection('projets')
             .find({ client: clientParam })
-            .sort({ dateDepublication: 1 })
+            .sort({ dateDePublication: 1 })
             .toArray();
         projets = JSON.parse(JSON.stringify(projets));
 
-        annees = projets.map((projets) => projets.annee);
+        annees = projets.map((projet) => projet.annee);
         annees = [...new Set(annees)];
 
         projets = projets.filter(

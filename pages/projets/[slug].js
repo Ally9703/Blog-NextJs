@@ -1,26 +1,24 @@
 // Librairies
-// import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { connectToDatabase } from '../../helpers/mongodb';
 import Head from 'next/head';
 
 export default function Projet(props) {
     // Variables
-    const { titre, description, slug, annee, client } = props.projet;
-    let clientAficher = client;
-
+    const { titre, description, client, annee, slug } = props.projet;
+    let clientAAfficher = client;
     if (client == 'Projet personnel') {
-        clientAficher = 'perso';
+        clientAAfficher = 'perso';
     }
 
     return (
         <>
             <Head>
-                <title>{titre} </title>
+                <title>{titre}</title>
             </Head>
             <h1 style={{ marginBottom: '.5rem' }}>{titre}</h1>
             <small style={{ display: 'flex', gap: '15px' }}>
-                <Link href={`/${clientAficher}`}>
+                <Link href={`/${clientAAfficher}`}>
                     <a
                         style={{
                             color: '#ee6c4d',
@@ -30,14 +28,14 @@ export default function Projet(props) {
                         {client}
                     </a>
                 </Link>
-                <div>Projet réalisé en {annee}. </div>
+                <div>Projet réalisé en {annee}.</div>
             </small>
         </>
     );
 }
 
 export async function getServerSideProps(context) {
-    // Les Variables
+    // Variables
     let projetRecupere;
     let { params } = context;
     const slug = params.slug;
@@ -46,7 +44,7 @@ export async function getServerSideProps(context) {
         const client = await connectToDatabase();
         const db = client.db();
 
-        // Récuperer les projets
+        // Récupérer le projet en cours
         projetRecupere = await db
             .collection('projets')
             .find({ slug: slug })
@@ -63,6 +61,7 @@ export async function getServerSideProps(context) {
             },
         };
     }
+
     return {
         props: {
             projet: JSON.parse(JSON.stringify(projetRecupere))[0],
@@ -71,59 +70,61 @@ export async function getServerSideProps(context) {
 }
 
 // export async function getStaticPaths() {
-//     // Les Variables
-//     let projets;
-//     try {
-//         const client = await connectToDatabase();
-//         const db = client.db();
+// 	// Variable
+// 	let projets;
 
-//         // Récupérer tout les projets
-//         projets = await db.collection('projets').find().toArray();
-//     } catch (error) {
-//         projets = [];
-//     }
+// 	try {
+// 		const client = await connectToDatabase();
+// 		const db = client.db();
 
-//     const dynamicPaths = projets.map((projet) => ({
-//         params: { slug: projet.slug },
-//     }));
+// 		// Récupére tous les projets
+// 		projets = await db.collection('projets').find().toArray();
+// 	} catch (error) {
+// 		projets = [];
+// 	}
 
-//     return {
-//         paths: dynamicPaths,
-//         fallback: 'blocking',
-//     };
+// 	const dynamicPaths = projets.map((projet) => ({
+// 		params: { slug: projet.slug },
+// 	}));
+
+// 	return {
+// 		paths: dynamicPaths,
+// 		fallback: 'blocking',
+// 	};
 // }
 
 // export async function getStaticProps(context) {
-// // Les Variables
+// // Variables
 // let projetRecupere;
 // let { params } = context;
 // const slug = params.slug;
 
 // try {
-//     const client = await connectToDatabase();
-//     const db = client.db();
+// 	const client = await connectToDatabase();
+// 	const db = client.db();
 
-//     // Récuperer les projets
-//     projetRecupere = await db
-//         .collection('projets')
-//         .find({ slug: slug })
-//         .toArray();
+// 	// Récupérer le projet en cours
+// 	projetRecupere = await db
+// 		.collection('projets')
+// 		.find({ slug: slug })
+// 		.toArray();
 // } catch (error) {
-//     projetRecupere = [];
+// 	projetRecupere = [];
 // }
 
 // if (!projetRecupere[0]) {
-//     return {
-//         // notFound: true,
-//         redirect: {
-//             destination: '/',
-//         },
-//     };
+// 	return {
+// 		// notFound: true,
+// 		redirect: {
+// 			destination: '/',
+// 		},
+// 	};
 // }
+
 // return {
-//     props: {
-//         projet: JSON.parse(JSON.stringify(projetRecupere))[0],
-//         revalidate: 3600,
-//     },
+// 	props: {
+// 		projet: JSON.parse(JSON.stringify(projetRecupere))[0],
+// 	},
+// 	revalidate: 3600,
 // };
 // }

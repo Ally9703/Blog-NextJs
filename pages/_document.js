@@ -1,4 +1,4 @@
-// Les Librairies
+// Librairie
 import Document, {
     Html,
     Head,
@@ -8,7 +8,7 @@ import Document, {
 
 export default function MonDocument() {
     return (
-        <Html>
+        <Html lang='fr'>
             <Head />
             <body>
                 <Main />

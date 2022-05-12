@@ -1,4 +1,4 @@
-// Les Librairies
+// Librairies
 import { connectToDatabase } from '../../helpers/mongodb';
 import Head from 'next/head';
 
@@ -6,8 +6,6 @@ import Head from 'next/head';
 import CarteDeProjet from '../../components/CarteDeProjet/CarteDeProjet';
 
 export default function Projets(props) {
-    // console.log(props.projets);
-
     return (
         <>
             <Head>
@@ -30,7 +28,7 @@ export default function Projets(props) {
 }
 
 export async function getStaticProps() {
-    // Les Variables
+    // Variables
     let projets;
     let client;
 
@@ -38,15 +36,7 @@ export async function getStaticProps() {
         const client = await connectToDatabase();
         const db = client.db();
 
-        // // connexion à MongoDB
-        // client = await MongoClient.connect(
-        //     'mongodb+srv://Bless:W7lt0FuKcpTJFiOc@cluster0.kh93b.mongodb.net/portfolio?retryWrites=true&w=majority'
-        // );
-
-        // //Connexion à la BD
-        // const db = client.db();
-
-        // Récuperer les projets
+        // Récupérer les projets
         projets = await db
             .collection('projets')
             .find()
@@ -62,14 +52,3 @@ export async function getStaticProps() {
         },
     };
 }
-
-// EXEMPLE DE CE QUE JE DOIS AUSSI ETUDIER POUR RESOUDRE MON PROBLEME DE CONNEXION
-
-// const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = "mongodb+srv://Bless:<password>@cluster0.kh93b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
-// });

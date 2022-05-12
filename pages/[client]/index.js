@@ -2,15 +2,13 @@
 import { useRouter } from 'next/router';
 import { connectToDatabase } from '../../helpers/mongodb';
 import Head from 'next/head';
-// import { MongoClient } from 'mongodb';
-// import Link from 'next/link';
 
 // Composants
 import CarteDeProjet from '../../components/CarteDeProjet/CarteDeProjet';
 import FiltresDeClient from '../../components/FiltresDeClient/FiltresDeClient';
 
 export default function ProjetsDuClient(props) {
-    // Variable
+    // Variables
     const router = useRouter();
     let nomDuClient = router.query.client;
 
@@ -23,7 +21,7 @@ export default function ProjetsDuClient(props) {
     return (
         <>
             <Head>
-                <title>{nomDuClient} </title>
+                <title>{nomDuClient}</title>
             </Head>
             <h1>{nomDuClient}</h1>
 
@@ -42,22 +40,15 @@ export default function ProjetsDuClient(props) {
                 }}
             >
                 {props.projets.map((projet) => (
-                    <CarteDeProjet projet={projet} kye={projet._id} />
+                    <CarteDeProjet projet={projet} key={projet._id} />
                 ))}
-
-                {/* <CarteDeProjet />
-                <CarteDeProjet />
-                <CarteDeProjet />
-                <CarteDeProjet /> */}
             </div>
         </>
     );
 }
 
-// LA PARTIE SERVEUR AVEC LE PROPS ET LE PATHS
-
 export async function getStaticPaths() {
-    // connexion à MongoDB
+    // Connexion à MongoDB
     const client = await connectToDatabase();
     const db = client.db();
 
@@ -72,23 +63,22 @@ export async function getStaticPaths() {
         }
     });
 
-    // arrayPaths = [...new Set(arrayPaths)];
+    arrayPaths = [...new Set(arrayPaths)];
+
     const dynamicPaths = arrayPaths.map((path) => ({
         params: { client: path },
     }));
 
     return {
         paths: dynamicPaths,
-        fallback: 'blocking',
+        fallback: false,
     };
 }
 
 export async function getStaticProps(context) {
-    // Les Variables
+    // Variables
     let projets;
     let annees;
-    // let client;
-
     const { params } = context;
     let clientParam = params.client;
 
@@ -100,7 +90,7 @@ export async function getStaticProps(context) {
         const client = await connectToDatabase();
         const db = client.db();
 
-        // Récuperer les projets
+        // Récupérer les projets
         projets = await db
             .collection('projets')
             .find({ client: clientParam })
@@ -108,7 +98,7 @@ export async function getStaticProps(context) {
             .toArray();
         projets = JSON.parse(JSON.stringify(projets));
 
-        annees = projets.map((projets) => projets.annee);
+        annees = projets.map((projet) => projet.annee);
         annees = [...new Set(annees)];
     } catch (error) {
         projets = [];
