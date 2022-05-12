@@ -116,5 +116,6 @@ export async function getStaticProps(context) {
             projets: projets,
             annees: annees,
         },
+        revalidate: 3600,
     };
 }
