@@ -30,9 +30,6 @@ export default function Header() {
                         <li>
                             <Link href='/projets'>Projets</Link>
                         </li>
-                        <li>
-                            <Link href='/apropos'>À Propos</Link>
-                        </li>
                     </ul>
                 </nav>
             </div>

@@ -21,11 +21,6 @@ export default function Projets(props) {
                 {props.projets.map((projet) => (
                     <CarteDeProjet projet={projet} key={projet._id} />
                 ))}
-
-                {/* <CarteDeProjet />
-                <CarteDeProjet />
-                <CarteDeProjet />
-                <CarteDeProjet /> */}
             </div>
         </>
     );
