@@ -14,15 +14,15 @@
     "static/development/_ssgManifest.js"
   ],
   "pages": {
-    "/": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/index.js"
-    ],
     "/[client]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/[client].js"
+    ],
+    "/[client]/[annee]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/[client]/[annee].js"
     ],
     "/_app": [
       "static/chunks/webpack.js",
@@ -33,11 +33,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
-    ],
-    "/projets": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/projets.js"
     ]
   },
   "ampFirstPages": []

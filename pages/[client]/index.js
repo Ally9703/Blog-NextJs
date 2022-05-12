@@ -1,7 +1,7 @@
 // Librairies
 import { useRouter } from 'next/router';
 import { connectToDatabase } from '../../helpers/mongodb';
-
+import Head from 'next/head';
 // import { MongoClient } from 'mongodb';
 // import Link from 'next/link';
 
@@ -22,6 +22,9 @@ export default function ProjetsDuClient(props) {
 
     return (
         <>
+            <Head>
+                <title>{nomDuClient} </title>
+            </Head>
             <h1>{nomDuClient}</h1>
 
             {/* Filtres */}

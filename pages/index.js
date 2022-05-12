@@ -1,10 +1,14 @@
 // Librairies
 import CarteDeProjet from '../components/CarteDeProjet/CarteDeProjet';
 import { connectToDatabase } from '../helpers/mongodb';
+import Head from 'next/head';
 
 export default function Index(props) {
     return (
         <main>
+            <Head>
+                <title>Le portfolio d'Alliance-Tshindayi</title>
+            </Head>
             <h1>Bienvenue sur mon portfolio</h1>
             <div
                 style={{

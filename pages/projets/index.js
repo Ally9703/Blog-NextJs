@@ -1,6 +1,6 @@
 // Les Librairies
 import { connectToDatabase } from '../../helpers/mongodb';
-// import { MongoClient } from 'mongodb';
+import Head from 'next/head';
 
 // Composant
 import CarteDeProjet from '../../components/CarteDeProjet/CarteDeProjet';
@@ -10,6 +10,9 @@ export default function Projets(props) {
 
     return (
         <>
+            <Head>
+                <title>Mes projets</title>
+            </Head>
             <h1>Mes Projets</h1>
             <div
                 style={{
