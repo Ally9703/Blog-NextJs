@@ -51,7 +51,7 @@ export async function getStaticPaths() {
 
     return {
         paths: dynamicPaths,
-        fallback: false,
+        fallback: 'blocking',
     };
 }
 
@@ -80,6 +80,12 @@ export async function getStaticProps(context) {
             .toArray();
     } catch (error) {
         projetRecupere = [];
+    }
+
+    if (!projetRecupere[0]) {
+        return {
+            notFound: true,
+        };
     }
     return {
         props: {
