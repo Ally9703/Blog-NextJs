@@ -67,7 +67,6 @@ export default function Header() {
                                     </Link>
                                 </li>
                             )}
-
                         {session && (
                             <li>
                                 <a

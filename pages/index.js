@@ -5,33 +5,38 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { getSession, signOut } from 'next-auth/client';
 import { useState } from 'react';
+import { SpinnerDotted } from 'spinners-react';
 
 export default function Index(props) {
     // States
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
-    // Methode
-    const onDeleteClikedHandler = () => {
-        if(!isLoading){
+
+    // Méthode
+    const onDeleteClickedHandler = async () => {
+        if (!isLoading) {
             setIsLoading(true);
             setError(null);
 
-
-            // Envoyer la demande de supression de copmte
-            const reponse = await fetch('/api/utilisateur/supprimer', {
-                method:'DELETE',
-                headers:{
-                    'Content-Type' : 'application/json',
+            // Envoyer ma demande de suppression
+            const reponse = await fetch(
+                '/api/utilisateur/supprimer',
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 }
+            );
 
-            });
             const fetchedData = await reponse.json();
-            
-            if(!reponse.ok){
+
+            if (!reponse.ok) {
                 setIsLoading(false);
-                setError(fetchedData.message || 'Une erreur est survenue')
-            }
-            else{
+                setError(
+                    fetchedData.message || 'Une erreur est survenue'
+                );
+            } else {
                 setIsLoading(false);
                 signOut();
             }
@@ -85,34 +90,45 @@ export default function Index(props) {
                         >
                             Contactez-moi !
                         </a>
+
                         {props.utilisateur && (
                             <button
                                 style={{
                                     background: '#ee6c4d',
-                                    marginLeft: '30px',
+                                    marginLeft: '10px',
+                                    border: 'none',
                                     color: 'white',
                                     padding: '10px 15px 10px 15px',
                                     borderRadius: '5px',
                                 }}
-                                onClick={onDeleteClikedHandler}
+                                onClick={onDeleteClickedHandler}
                             >
-                                <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    style={{
-                                        width: '15px',
-                                        heigth: '15px',
-                                    }}
-                                    fill='none'
-                                    viewBox='0 0 24 24'
-                                    stroke='currentColor'
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap='round'
-                                        strokeLinejoin='round'
-                                        d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
+                                {isLoading ? (
+                                    <SpinnerDotted
+                                        size={15}
+                                        thickness={100}
+                                        speed={100}
+                                        color='#ffffff'
                                     />
-                                </svg>
+                                ) : (
+                                    <svg
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        style={{
+                                            width: '15px',
+                                            height: '15px',
+                                        }}
+                                        fill='none'
+                                        viewBox='0 0 24 24'
+                                        stroke='currentColor'
+                                    >
+                                        <path
+                                            strokeLinecap='round'
+                                            strokeLinejoin='round'
+                                            strokeWidth={2}
+                                            d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
+                                        />
+                                    </svg>
+                                )}
                             </button>
                         )}
                     </p>

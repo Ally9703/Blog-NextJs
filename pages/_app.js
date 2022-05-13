@@ -7,16 +7,16 @@ import { Provider } from 'next-auth/client';
 import Layout from '../components/ui/Layout/Layout';
 
 function MyApp({ Component, pageProps }) {
-	return (
-		<Provider session={pageProps.session}>
-			<Layout>
-				<Head>
-					<title>Nicolas</title>
-				</Head>
-				<Component {...pageProps} />
-			</Layout>
-		</Provider>
-	);
+    return (
+        <Provider session={pageProps.session}>
+            <Layout>
+                <Head>
+                    <title>Alliance</title>
+                </Head>
+                <Component {...pageProps} />
+            </Layout>
+        </Provider>
+    );
 }
 
 export default MyApp;
