@@ -1,6 +1,12 @@
 // Librairies
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
+import { SpinnerDotted } from 'spinners-react';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+
+// Composant
+import Error from '../../components/ui/Error/Error';
 
 export default function Ajouter() {
     // Variables
@@ -9,27 +15,37 @@ export default function Ajouter() {
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const router = useRouter();
+
+    // States
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
 
     // Méthode
     const onSubmittedHandler = async (data) => {
-        // Envoyer le nouveau projet sur notre API Next
-        const response = await fetch('/api/projet', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+        if (!isLoading) {
+            setIsLoading(true);
+            setError(null);
+            // Envoyer le nouveau projet sur notre API Next
+            const response = await fetch('/api/projet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
-        const fetchedData = await response.json();
+            const fetchedData = await response.json();
 
-        if (!response.ok) {
-            console.log(
-                fetchedData.message ||
-                    "Une erreur est survenue dans l'API."
-            );
-        } else {
-            console.log(fetchedData);
+            if (!response.ok) {
+                setIsLoading(false);
+                setError(
+                    fetchedData.message || 'Une erreur est survenue.'
+                );
+            } else {
+                setIsLoading(false);
+                router.replace(`/projets/${fetchedData.projet.slug}`);
+            }
         }
     };
 
@@ -54,19 +70,12 @@ export default function Ajouter() {
                         errors.annee ||
                         errors.description ||
                         errors.contenu) && (
-                        <div
-                            style={{
-                                margin: '15px 0 15px 0',
-                                backgroundColor: '#ee6c4d',
-                                color: 'white',
-                                padding: '15px',
-                                borderRadius: '5px',
-                            }}
-                        >
+                        <Error>
                             Veuillez remplir tous les champs du
                             formulaire.
-                        </div>
+                        </Error>
                     )}
+                    {error && <Error>{error}</Error>}
                     <form onSubmit={handleSubmit(onSubmittedHandler)}>
                         <p>
                             <label htmlFor='titre'>Titre</label>
@@ -197,7 +206,16 @@ export default function Ajouter() {
                                     borderRadius: '5px',
                                 }}
                             >
-                                Ajouter
+                                {isLoading ? (
+                                    <SpinnerDotted
+                                        size={15}
+                                        thickness={100}
+                                        speed={100}
+                                        color='#ffffff'
+                                    />
+                                ) : (
+                                    'Ajouter'
+                                )}
                             </button>
                         </div>
                     </form>

@@ -8,9 +8,7 @@ export default function Index(props) {
     return (
         <main>
             <Head>
-                <title>
-                    Le portfolio d'un développeur (Alliance)
-                </title>
+                <title>Le portfolio d'un développeur (Nicolas)</title>
             </Head>
             <h1>Bienvenue sur mon portfolio</h1>
             <div
@@ -26,7 +24,7 @@ export default function Index(props) {
             >
                 <div>
                     <h2 style={{ fontWeight: 'lighter' }}>
-                        Je m'appelle <b>Alliance Tshindayi</b>
+                        Je m'appelle <b>Nicolas</b>
                     </h2>
                     <p>
                         Je suis développeur full-stack, je maîtrise de
@@ -115,5 +113,6 @@ export async function getStaticProps() {
         props: {
             projets: JSON.parse(JSON.stringify(projets)),
         },
+        revalidate: 60,
     };
 }
