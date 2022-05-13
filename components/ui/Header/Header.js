@@ -1,8 +1,20 @@
 // Librairies
 import classes from './Header.module.css';
 import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
 export default function Header() {
+    // Variables
+    const router = useRouter();
+    const [session, loading] = useSession();
+
+    // Méthode
+    const onLogoutClickedHandler = () => {
+        signOut();
+        router.push('/');
+    };
+
     return (
         <header className={classes.Header}>
             <div
@@ -30,19 +42,40 @@ export default function Header() {
                         <li>
                             <Link href='/projets'>Projets</Link>
                         </li>
-                        <li>
-                            <Link href='/ajouter'>Ajouter</Link>
-                        </li>
 
-                        <li>
-                            <Link href='/connexion'>Connexion</Link>
-                        </li>
-
-                        <li>
-                            <Link href='/inscription'>
-                                S'inscrire
-                            </Link>
-                        </li>
+                        {!session && !loading && (
+                            <>
+                                <li>
+                                    <Link href='/connexion'>
+                                        Connexion
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href='/inscription'>
+                                        Inscription
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+                        {session && (
+                            <>
+                                <li>
+                                    <Link href='/ajouter'>
+                                        Ajouter
+                                    </Link>
+                                </li>
+                                <li>
+                                    <a
+                                        onClick={
+                                            onLogoutClickedHandler
+                                        }
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        Déconnexion
+                                    </a>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </nav>
             </div>

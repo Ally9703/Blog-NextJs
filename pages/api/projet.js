@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 		} catch (error) {
 			clientMongoDB.close();
 			res.status(500).json({
-				message: 'Un problème est survenue.',
+				message: 'Un problème est survenu.',
 			});
 		}
 
