@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { SpinnerDotted } from 'spinners-react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Button from '../../components/ui/Button/Button';
 
 // Composant
 import Error from '../../components/ui/Error/Error';
@@ -54,7 +55,9 @@ export default function Ajouter() {
             <Head>
                 <title>Ajouter un article</title>
             </Head>
-            <h1>Ajouter un projet</h1>
+            <h1 style={{ textAlign: 'center', marginTop: '35px' }}>
+                Ajouter un projet
+            </h1>
             <section
                 style={{ display: 'flex', justifyContent: 'center' }}
             >
@@ -82,14 +85,7 @@ export default function Ajouter() {
                             <input
                                 id='titre'
                                 placeholder='Titre du projet'
-                                style={{
-                                    display: 'block',
-                                    width: '400px',
-                                    border: '1px solid gray',
-                                    padding: '10px 15px 10px 15px',
-                                    borderRadius: '5px',
-                                    marginTop: '5px',
-                                }}
+                                className='input'
                                 {...register('titre', {
                                     required: true,
                                 })}
@@ -100,14 +96,7 @@ export default function Ajouter() {
                             <input
                                 id='slug'
                                 placeholder='Slug du projet'
-                                style={{
-                                    display: 'block',
-                                    width: '400px',
-                                    border: '1px solid gray',
-                                    padding: '10px 15px 10px 15px',
-                                    borderRadius: '5px',
-                                    marginTop: '5px',
-                                }}
+                                className='input'
                                 {...register('slug', {
                                     required: true,
                                 })}
@@ -118,14 +107,7 @@ export default function Ajouter() {
                             <input
                                 id='client'
                                 placeholder='Client associé au projet'
-                                style={{
-                                    display: 'block',
-                                    width: '400px',
-                                    border: '1px solid gray',
-                                    padding: '10px 15px 10px 15px',
-                                    borderRadius: '5px',
-                                    marginTop: '5px',
-                                }}
+                                className='input'
                                 {...register('client', {
                                     required: true,
                                 })}
@@ -136,14 +118,7 @@ export default function Ajouter() {
                             <input
                                 id='annee'
                                 placeholder='Année de création du projet'
-                                style={{
-                                    display: 'block',
-                                    width: '400px',
-                                    border: '1px solid gray',
-                                    padding: '10px 15px 10px 15px',
-                                    borderRadius: '5px',
-                                    marginTop: '5px',
-                                }}
+                                className='input'
                                 {...register('annee', {
                                     required: true,
                                 })}
@@ -157,15 +132,7 @@ export default function Ajouter() {
                                 id='description'
                                 placeholder='Description du projet'
                                 rows='5'
-                                style={{
-                                    display: 'block',
-                                    width: '400px',
-                                    border: '1px solid gray',
-                                    padding: '10px 15px 10px 15px',
-                                    borderRadius: '5px',
-                                    marginTop: '5px',
-                                    fontFamily: 'arial',
-                                }}
+                                className='textarea'
                                 {...register('description', {
                                     required: true,
                                 })}
@@ -177,15 +144,7 @@ export default function Ajouter() {
                                 id='contenu'
                                 placeholder='Contenu du projet'
                                 rows='5'
-                                style={{
-                                    display: 'block',
-                                    width: '400px',
-                                    border: '1px solid gray',
-                                    padding: '10px 15px 10px 15px',
-                                    borderRadius: '5px',
-                                    marginTop: '5px',
-                                    fontFamily: 'arial',
-                                }}
+                                className='textarea'
                                 {...register('contenu', {
                                     required: true,
                                 })}
@@ -197,15 +156,7 @@ export default function Ajouter() {
                                 justifyContent: 'end',
                             }}
                         >
-                            <button
-                                style={{
-                                    border: 0,
-                                    backgroundColor: '#ee6c4d',
-                                    color: 'white',
-                                    padding: '10px 15px 10px 15px',
-                                    borderRadius: '5px',
-                                }}
-                            >
+                            <Button>
                                 {isLoading ? (
                                     <SpinnerDotted
                                         size={15}
@@ -216,7 +167,7 @@ export default function Ajouter() {
                                 ) : (
                                     'Ajouter'
                                 )}
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </main>

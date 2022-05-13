@@ -33,6 +33,16 @@ export default function Header() {
                         <li>
                             <Link href='/ajouter'>Ajouter</Link>
                         </li>
+
+                        <li>
+                            <Link href='/connexion'>Connexion</Link>
+                        </li>
+
+                        <li>
+                            <Link href='/inscription'>
+                                S'inscrire
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
             </div>
