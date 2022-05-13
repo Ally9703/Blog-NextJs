@@ -1,4 +1,6 @@
+# NextJS : la formation Believemy
 
+Ce projet a été créé exclusivement pour les étudiants de [Believemy](https://believemy.com).
 
 ## Etapes d'installation
 
@@ -10,4 +12,8 @@ Elle vous permettra d'installer toutes les dépendances nécessaires au bon fonc
 
 ### `npm run dev`
 
-Cette commande lancera votre serveur de développement. Vous pourrez ainsi travailler sur votre projet en l'ouvrant sur un navigateur web (généralement à l'adresse http://localhost:3000).# Blog-NextJs
+Cette commande lancera votre serveur de développement. Vous pourrez ainsi travailler sur votre projet en l'ouvrant sur un navigateur web (généralement à l'adresse http://localhost:3000).
+
+## Un problème ?
+
+Ce projet a été concocté par notre équipe, mais si vous rencontrez le moindre problème, n'hésitez pas à nous contacter via notre [formulaire de contact](https://believemy.com/contact).

@@ -8,7 +8,9 @@ export default function Index(props) {
     return (
         <main>
             <Head>
-                <title>Le portfolio d'un développeur (Nicolas)</title>
+                <title>
+                    Le portfolio d'un développeur (Alliance)
+                </title>
             </Head>
             <h1>Bienvenue sur mon portfolio</h1>
             <div
@@ -24,7 +26,7 @@ export default function Index(props) {
             >
                 <div>
                     <h2 style={{ fontWeight: 'lighter' }}>
-                        Je m'appelle <b>Nicolas</b>
+                        Je m'appelle <b>Alliance Tshindayi</b>
                     </h2>
                     <p>
                         Je suis développeur full-stack, je maîtrise de

@@ -4,69 +4,69 @@ import { connectToDatabase } from '../../helpers/mongodb';
 import Head from 'next/head';
 
 export default function Projet(props) {
-    // Variables
-    const { titre, description, client, annee, slug } = props.projet;
-    let clientAAfficher = client;
-    if (client == 'Projet personnel') {
-        clientAAfficher = 'perso';
-    }
+	// Variables
+	const { titre, description, client, annee, slug } = props.projet;
+	let clientAAfficher = client;
+	if (client == 'Projet personnel') {
+		clientAAfficher = 'perso';
+	}
 
-    return (
-        <>
-            <Head>
-                <title>{titre}</title>
-            </Head>
-            <h1 style={{ marginBottom: '.5rem' }}>{titre}</h1>
-            <small style={{ display: 'flex', gap: '15px' }}>
-                <Link href={`/${clientAAfficher}`}>
-                    <a
-                        style={{
-                            color: '#ee6c4d',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        {client}
-                    </a>
-                </Link>
-                <div>Projet réalisé en {annee}.</div>
-            </small>
-        </>
-    );
+	return (
+		<>
+			<Head>
+				<title>{titre}</title>
+			</Head>
+			<h1 style={{ marginBottom: '.5rem' }}>{titre}</h1>
+			<small style={{ display: 'flex', gap: '15px' }}>
+				<Link href={`/${clientAAfficher}`}>
+					<a
+						style={{
+							color: '#ee6c4d',
+							textDecoration: 'none',
+						}}
+					>
+						{client}
+					</a>
+				</Link>
+				<div>Projet réalisé en {annee}.</div>
+			</small>
+		</>
+	);
 }
 
 export async function getServerSideProps(context) {
-    // Variables
-    let projetRecupere;
-    let { params } = context;
-    const slug = params.slug;
+	// Variables
+	let projetRecupere;
+	let { params } = context;
+	const slug = params.slug;
 
-    try {
-        const client = await connectToDatabase();
-        const db = client.db();
+	try {
+		const client = await connectToDatabase();
+		const db = client.db();
 
-        // Récupérer le projet en cours
-        projetRecupere = await db
-            .collection('projets')
-            .find({ slug: slug })
-            .toArray();
-    } catch (error) {
-        projetRecupere = [];
-    }
+		// Récupérer le projet en cours
+		projetRecupere = await db
+			.collection('projets')
+			.find({ slug: slug })
+			.toArray();
+	} catch (error) {
+		projetRecupere = [];
+	}
 
-    if (!projetRecupere[0]) {
-        return {
-            // notFound: true,
-            redirect: {
-                destination: '/',
-            },
-        };
-    }
+	if (!projetRecupere[0]) {
+		return {
+			// notFound: true,
+			redirect: {
+				destination: '/',
+			},
+		};
+	}
 
-    return {
-        props: {
-            projet: JSON.parse(JSON.stringify(projetRecupere))[0],
-        },
-    };
+	return {
+		props: {
+			projet: JSON.parse(JSON.stringify(projetRecupere))[0],
+		},
+	};
 }
 
 // export async function getStaticPaths() {
