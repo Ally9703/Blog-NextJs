@@ -9,7 +9,7 @@ export default function Inscription() {
     const {
         register,
         handleSubmit,
-        formState: { erros },
+        formState: { errors },
     } = useForm();
 
     //Methode
@@ -46,6 +46,11 @@ export default function Inscription() {
                                     required: true,
                                 })}
                             />
+                            {errors.pseudo && (
+                                <small style={{ color: 'red' }}>
+                                    veuillez renseigner ce champ.
+                                </small>
+                            )}
                         </p>
 
                         <p>
@@ -62,6 +67,21 @@ export default function Inscription() {
                                         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                                 })}
                             />
+                            {errors.email &&
+                                errors.email.type === 'required' && (
+                                    <small style={{ color: 'red' }}>
+                                        Veuillez renseigner ce champ.
+                                    </small>
+                                )}
+
+                            {errors.email &&
+                                errors.email.type === 'pattern' && (
+                                    <small style={{ color: 'red' }}>
+                                        Votre adresse email n'est pas
+                                        correct, veuillez vérifier de
+                                        nouveau.
+                                    </small>
+                                )}
                         </p>
 
                         <p>
@@ -76,6 +96,11 @@ export default function Inscription() {
                                     required: true,
                                 })}
                             />
+                            {errors.password && (
+                                <small style={{ color: 'red' }}>
+                                    veuillez renseigner ce champ.
+                                </small>
+                            )}
                         </p>
                         <div
                             style={{
