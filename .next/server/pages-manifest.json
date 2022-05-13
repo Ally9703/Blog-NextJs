@@ -2,6 +2,5 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/ajouter": "pages/ajouter.js",
-  "/connexion": "pages/connexion.js"
+  "/inscription": "pages/inscription.js"
 }
